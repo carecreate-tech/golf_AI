@@ -34,6 +34,8 @@
   club.ts          型定義
 /hooks
   useClubs.ts      クラブデータフック
+/supabase
+  schema.sql       DBスキーマ & サンプルデータ
 ```
 
 ## 環境変数 (.env.local)
