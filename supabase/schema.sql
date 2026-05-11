@@ -13,8 +13,16 @@ create table if not exists public.clubs (
 alter table public.clubs enable row level security;
 
 -- 匿名ユーザーも含む全ユーザーが読み書きできるポリシー（MVPのため）
-create policy "Allow all access" on public.clubs
-  for all using (true) with check (true);
+do $$
+begin
+  if not exists (
+    select 1 from pg_policies
+    where tablename = 'clubs' and policyname = 'Allow all access'
+  ) then
+    execute 'create policy "Allow all access" on public.clubs for all using (true) with check (true)';
+  end if;
+end
+$$;
 
 -- サンプルデータ（動作確認用）
 insert into public.clubs (name, distance, loft, miss_tendency, memo) values
